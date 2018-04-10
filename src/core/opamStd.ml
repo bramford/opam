@@ -159,11 +159,13 @@ module Set = struct
       let jsons = List.map O.to_json elements in
       `A jsons
 
-    let rec length_aux len = function
-      | [] -> len
-      | _::l -> length_aux (len + 1) l
+    let rec length_aux len s =
+      if S.is_empty s then
+        len
+      else
+        length_aux (len + 1) (S.remove (S.choose s) s)
 
-    let length l = length_aux 0 l
+    let length s = length_aux 0 s
 
     module Op = struct
       let (++) = union
