@@ -24,6 +24,7 @@ module type SET = sig
   val to_string: t -> string
   val to_json: t -> OpamJson.t
   val find: (elt -> bool) -> t -> elt
+  val length: t -> int
   module Op : sig
     val (++): t -> t -> t
     val (--): t -> t -> t
@@ -157,6 +158,12 @@ module Set = struct
       let elements = S.elements t in
       let jsons = List.map O.to_json elements in
       `A jsons
+
+    let rec length_aux len = function
+      | [] -> len
+      | _::l -> length_aux (len + 1) l
+
+    let length l = length_aux 0 l
 
     module Op = struct
       let (++) = union

@@ -30,6 +30,7 @@ module type SET = sig
   val to_string: t -> string
   val to_json: t -> OpamJson.t
   val find: (elt -> bool) -> t -> elt
+  val length: t -> int
 
   module Op : sig
     val (++): t -> t -> t (** Infix set union *)
